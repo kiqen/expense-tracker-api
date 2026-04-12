@@ -29,5 +29,40 @@ namespace Expense_Trackera.Controllers
 
             return Ok(createdCategory);
         }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, UpdateCategoryDto dto)
+        {
+            var category = new Category
+            {
+                Id = id,
+                Name = dto.Name
+            };
+
+            var updated = await _categoryRepository.UpdateAsync(category);
+
+            if (!updated)
+                return NotFound();
+
+            return NoContent();
+        }
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Category>>> GetAll()
+        {
+            var categories = await _categoryRepository.GetAllAsync();
+            return Ok(categories);
+        }
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Category>> GetById(int id)
+        {
+            var category = await _categoryRepository.GetByIdAsync(id);
+
+            if (category == null)
+                return NotFound();
+
+            return Ok(category);
+        }
+
+
+
     }
 }
