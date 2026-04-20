@@ -61,6 +61,18 @@ namespace Expense_Trackera.Controllers
 
             return Ok(category);
         }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var deleted = await _categoryRepository.DeleteAsync(id);
+            if (!deleted)
+                return NotFound();
+
+            return NoContent();
+
+
+
+        }
 
 
 

@@ -67,6 +67,17 @@ namespace Expense_Trackera.Controllers
             var transactions = await _transactionRepository.GetAllAsync();
             return Ok(transactions);
         }
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            var deleted = await _transactionRepository.DeleteAsync(id);
+            if (!deleted)
+                return NotFound();
+
+            return NoContent();
+
+        }
+
 
 
     }

@@ -51,5 +51,16 @@ namespace Expense_Trackera.Repositories
                 .FirstOrDefaultAsync(t => t.Id == id);
         }
 
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var transaction = await _context.Transactions.FindAsync(id);
+            if (transaction == null) 
+                return false;
+            _context.Transactions.Remove(transaction);
+            await _context.SaveChangesAsync();
+            return true;
+
+
+        }
     }
 }

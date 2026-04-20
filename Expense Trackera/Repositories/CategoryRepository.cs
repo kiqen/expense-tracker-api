@@ -44,7 +44,14 @@ namespace Expense_Trackera.Repositories
             return await _context.Categories.FindAsync(id);
         }
 
-
-
+        public async Task<bool> DeleteAsync(int id)
+        {
+            var existingCategory = await _context.Categories.FindAsync(id);
+            if (existingCategory == null)
+                return false;
+            _context.Categories.Remove(existingCategory);
+            await _context.SaveChangesAsync();
+            return true;
+        }
     }
 }
