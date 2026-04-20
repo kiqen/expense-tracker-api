@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Expense_Trackera.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,7 +32,7 @@ namespace Expense_Trackera.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Amount = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Date = table.Column<DateOnly>(type: "date", nullable: false),
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false)
                 },

@@ -54,8 +54,8 @@ namespace Expense_Trackera.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
 
                     b.Property<string>("Title")
                         .IsRequired()

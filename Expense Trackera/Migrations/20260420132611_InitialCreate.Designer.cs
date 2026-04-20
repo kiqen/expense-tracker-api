@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Expense_Trackera.Migrations
 {
     [DbContext(typeof(ExpenseTrackerContext))]
-    [Migration("20260411134446_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20260420132611_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -57,8 +57,8 @@ namespace Expense_Trackera.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
 
                     b.Property<string>("Title")
                         .IsRequired()
