@@ -79,9 +79,9 @@ namespace Expense_Trackera.Controllers
             return Ok(transaction);
         }
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Transaction>>> GetAll()
+        public async Task<ActionResult<IEnumerable<Transaction>>> GetAll(int? categoryId,string? type,DateOnly? dateFrom,DateOnly? dateTo)
         {
-            var transactions = await _transactionRepository.GetAllAsync();
+            var transactions = await _transactionRepository.GetAllFilteredAsync(categoryId, type, dateFrom, dateTo);
             return Ok(transactions);
         }
         [HttpDelete("{id}")]

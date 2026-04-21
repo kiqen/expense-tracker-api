@@ -37,13 +37,34 @@ namespace Expense_Trackera.Repositories
             await _context.SaveChangesAsync();
             return true;
         }
-        public async Task<IEnumerable<Transaction>> GetAllAsync()
+        public async Task<List<Transaction>> GetAllFilteredAsync(int? categoryId,string? type,DateOnly? dateFrom,DateOnly? dateTo)
         {
-            return await _context.Transactions
+            var query = _context.Transactions
                 .Include(t => t.Category)
-                .ToListAsync();
-        }
+                .AsQueryable();
 
+            if (categoryId.HasValue)
+            {
+                query = query.Where(t => t.CategoryId == categoryId.Value);
+            }
+
+            if (!string.IsNullOrWhiteSpace(type))
+            {
+                query = query.Where(t => t.Type == type);
+            }
+
+            if (dateFrom.HasValue)
+            {
+                query = query.Where(t => t.Date >= dateFrom.Value);
+            }
+
+            if (dateTo.HasValue)
+            {
+                query = query.Where(t => t.Date <= dateTo.Value);
+            }
+
+            return await query.ToListAsync();
+        }
         public async Task<Transaction?> GetByIdAsync(int id)
         {
             return await _context.Transactions
