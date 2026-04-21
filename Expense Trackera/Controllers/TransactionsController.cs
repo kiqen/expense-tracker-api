@@ -11,15 +11,25 @@ namespace Expense_Trackera.Controllers
     public class TransactionsController : ControllerBase
     {
         private readonly ITransactionRepository _transactionRepository;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public TransactionsController(ITransactionRepository transactionRepository)
+        public TransactionsController(ITransactionRepository transactionRepository, ICategoryRepository categoryRepository)
         {
             _transactionRepository = transactionRepository;
+            _categoryRepository = categoryRepository;
+
         }
 
         [HttpPost]
         public async Task<ActionResult<Transaction>> Create(CreateTransactionDto dto)
         {
+            var category = await _categoryRepository.GetByIdAsync(dto.CategoryId);
+
+            if (category == null)
+            {
+                return BadRequest("Category does not exist");
+            }
+
             var transaction = new Transaction
             {
                 Title = dto.Title,
@@ -36,6 +46,13 @@ namespace Expense_Trackera.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, UpdateTransactionDto dto)
         {
+            var category = await _categoryRepository.GetByIdAsync(dto.CategoryId);
+
+            if (category == null)
+            {
+                return BadRequest("Category does not exist");
+            }
+
             var transaction = new Transaction
             {
                 Id = id,

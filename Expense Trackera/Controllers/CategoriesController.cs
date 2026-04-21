@@ -11,10 +11,13 @@ namespace Expense_Trackera.Controllers
     public class CategoriesController : ControllerBase
     {
         private readonly ICategoryRepository _categoryRepository;
+        private readonly ITransactionRepository _transactionRepository;
 
-        public CategoriesController(ICategoryRepository categoryRepository)
+
+        public CategoriesController(ICategoryRepository categoryRepository, ITransactionRepository transactionRepository)
         {
             _categoryRepository = categoryRepository;
+            _transactionRepository = transactionRepository;
         }
 
         [HttpPost]
@@ -64,6 +67,12 @@ namespace Expense_Trackera.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
+            var hasTransactions = await _transactionRepository.AnyByCategoryIdAsync(id);
+
+            if (hasTransactions)
+            {
+                return BadRequest("Cannot delete category with assigned transactions");
+            }
             var deleted = await _categoryRepository.DeleteAsync(id);
             if (!deleted)
                 return NotFound();

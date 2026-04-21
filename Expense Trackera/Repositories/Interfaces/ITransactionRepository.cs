@@ -9,6 +9,7 @@ namespace Expense_Trackera.Repositories
         Task<IEnumerable<Transaction>> GetAllAsync();
         Task<Transaction?> GetByIdAsync(int id);
         Task<bool> DeleteAsync(int id);
+        Task<bool> AnyByCategoryIdAsync(int categoryId);
 
 
 

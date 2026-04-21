@@ -62,5 +62,10 @@ namespace Expense_Trackera.Repositories
 
 
         }
+
+        public async Task<bool> AnyByCategoryIdAsync(int categoryId)
+        {
+            return await _context.Transactions.AnyAsync(t => t.CategoryId == categoryId);
+        }
     }
 }
